@@ -1,4 +1,7 @@
 class ClientsController < ApplicationController
+
+  before_action :authorized, except: [:sign_in]
+
   before_action :set_client, only: [:show, :update, :destroy]
 
   # GET /clients
@@ -18,7 +21,8 @@ class ClientsController < ApplicationController
     @client = Client.new(client_params)
 
     if @client.save
-      render json: @client, status: :created, location: @client
+      token = encode_token({ client_id: @client.id, email: @client.email })
+      render json: { client: @client, token: token }, status: :created, location: @client
     else
       render json: @client.errors, status: :unprocessable_entity
     end
@@ -36,6 +40,23 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   def destroy
     @client.destroy
+  end
+
+  # POST /sign_in 
+  def sign_in
+    @client = Client.find_by(email: params[:email])
+
+    if @client
+      token = encode_token({ client_id: @client.id, email: @client.email})
+      render json: { client: @client, token: token }
+    else
+      render json: {error: "E-mail Invalido!"}
+    end
+  end
+
+  # GET /auth_token
+  def auth_token
+    render json: @client
   end
 
   private
