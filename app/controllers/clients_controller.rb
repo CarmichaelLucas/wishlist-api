@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
 
-  before_action :authorized, except: [:sign_in]
+  before_action :authorized, except: [:sign_in, :create, :index]
 
   before_action :set_client, only: [:show, :update, :destroy]
 
