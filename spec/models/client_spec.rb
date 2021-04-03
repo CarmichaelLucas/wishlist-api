@@ -9,25 +9,8 @@ RSpec.describe Client, type: :model do
   end
 
   context 'Validate' do
-    it 'name cannot be empty' do
-      client = build(:client, name: nil)
-      client.valid?
-      
-      expect(client.errors[:name]).to include('não pode ficar em branco')
-    end
-
-    it 'email not be empty' do
-      client = build(:client, email: nil)
-      client.valid?
-      
-      expect(client.errors[:email]).to include('não pode ficar em branco')
-    end
-
-    it 'email not be valid' do
-      client = build(:client, email: "exemplo.invalido")
-      client.valid?
-      
-      expect(client.errors[:email]).to include('não é válido')
-    end
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
   end
 end

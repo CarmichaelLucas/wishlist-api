@@ -43,6 +43,7 @@ group :development, :test do
   gem 'faker'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '~> 4.0'
 end
 
 group :development do
