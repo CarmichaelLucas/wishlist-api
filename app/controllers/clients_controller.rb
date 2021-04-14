@@ -13,6 +13,8 @@ class ClientsController < ApplicationController
 
   # GET /clients/1
   def show
+    return forbidden if current_client_id != @client.id
+    
     render json: @client
   end
 
@@ -30,6 +32,8 @@ class ClientsController < ApplicationController
 
   # PATCH/PUT /clients/1
   def update
+    return forbidden if current_client_id != @client.id
+
     if @client.update(client_params)
       render json: @client
     else
@@ -39,6 +43,8 @@ class ClientsController < ApplicationController
 
   # DELETE /clients/1
   def destroy
+    return forbidden if current_client_id != @client.id
+
     @client.destroy
   end
 
@@ -68,5 +74,9 @@ class ClientsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def client_params
       params.require(:client).permit(:name, :email)
+    end
+
+    def current_client_id
+      decoded_token[0]['client_id']
     end
 end

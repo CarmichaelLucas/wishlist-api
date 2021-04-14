@@ -36,4 +36,8 @@ class ApplicationController < ActionController::API
   def authorized
     render json: { message: 'Realize o Login!' }, status: :unauthorized unless logged_in?
   end
+
+  def forbidden
+    render json: { message: 'Permissão negada para está ação !' }, status: :forbidden
+  end
 end
