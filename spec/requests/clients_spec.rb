@@ -105,10 +105,86 @@ RSpec.describe "/clients", type: :request do
   end
 
   describe "PATCH /update" do
+    context "with valid parameters" do
+      let(:new_client) { build(:client) }
+      it "updates the requested client" do
+        login
+        client
+        
+        patch "/clients/#{client.id}", params: { client: new_client }, headers: valid_headers, as: :json
 
+        client.reload
+        expect(new_client.name).to eq(client.name)
+        expect(new_client.email).to eq(client.email)
+      end
+
+      it "renders a JSON response with the client" do
+        login
+        client
+        
+        patch "/clients/#{client.id}", params: { client: new_client }, headers: valid_headers, as: :json
+        
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq("application/json")
+      end
+    end
+
+    context "with invalid parameters" do
+      let(:new_client) { build(:client, name: nil, email: nil) }
+
+      it "renders a JSON response with errors for the client" do
+        login
+        client
+ 
+        patch "/clients/#{client.id}", params: { client: new_client }, headers: valid_headers, as: :json
+        
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to eq("application/json")
+      end
+
+      let(:new_client) { create(:client) }
+      it 'renders a JSON response forbidden' do
+        login
+        new_client
+
+        patch "/clients/#{new_client.id}", params: { client: new_client }, headers: valid_headers, as: :json
+        
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe "DELETE /destroy" do
+    context 'with valid parameters' do
+      it 'destroys the requested client' do
+        login
+        client
+  
+        expect {
+          delete "/clients/#{client.id}", headers: valid_headers, as: :json
+        }.to change(Client, :count).by(-1)
+      end
 
+      it 'renders a JSON response by removing client' do
+        login
+        client
+  
+        delete "/clients/#{client.id}", headers: valid_headers, as: :json
+        
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:other_client) { create(:client) }
+      it 'does not destroy the requested customer' do
+        login
+        client
+
+        delete "/clients/#{other_client.id}", headers: valid_headers, as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 end

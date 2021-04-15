@@ -75,8 +75,4 @@ class ClientsController < ApplicationController
     def client_params
       params.require(:client).permit(:name, :email)
     end
-
-    def current_client_id
-      decoded_token[0]['client_id']
-    end
 end

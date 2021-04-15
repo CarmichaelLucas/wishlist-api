@@ -33,6 +33,10 @@ class ApplicationController < ActionController::API
     !!logged_in_client
   end
 
+  def current_client_id
+    decoded_token[0]['client_id']
+  end
+
   def authorized
     render json: { message: 'Realize o Login!' }, status: :unauthorized unless logged_in?
   end

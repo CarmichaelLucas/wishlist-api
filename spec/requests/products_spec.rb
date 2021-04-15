@@ -99,7 +99,7 @@ RSpec.describe "/products", type: :request do
               params: { product: new_product }, headers: valid_headers, as: :json
         
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to eq("application/json")
       end
     end
 
