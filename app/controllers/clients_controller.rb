@@ -6,8 +6,9 @@ class ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @q = Client.ransack(filters)
-    @clients = @q.result
+    result = Client.all.page(params[:page]).per(params[:per_page])
+    q = result.ransack(filters)
+    @clients = q.result
     
     render json: @clients
   end
