@@ -6,8 +6,9 @@ class ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @clients = Client.all
-
+    @q = Client.ransack(filters)
+    @clients = @q.result
+    
     render json: @clients
   end
 
@@ -74,5 +75,14 @@ class ClientsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def client_params
       params.require(:client).permit(:name, :email)
+    end
+
+    def filters
+      {
+        id_eq: params[:id],
+        name_cont: params[:name],
+        email_eq: params[:email],
+        s: 'id asc'
+      }
     end
 end

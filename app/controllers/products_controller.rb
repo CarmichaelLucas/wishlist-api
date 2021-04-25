@@ -5,7 +5,8 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all
+    @q = Product.ransack(filters)
+    @products = @q.result
 
     render json: @products
   end
@@ -49,5 +50,15 @@ class ProductsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def product_params
       params.require(:product).permit(:price, :image, :brand, :title, :review_score)
+    end
+
+    def filters
+      {
+        price_gteq: params[:price_initial],
+        price_lteq: params[:price_final],
+        brand_cont: params[:brand],
+        title_cont: params[:title],
+        s: 'id asc'
+      }
     end
 end
