@@ -79,7 +79,6 @@ class ClientsController < ApplicationController
 
     def filters
       {
-        id_eq: params[:id],
         name_cont: params[:name],
         email_eq: params[:email],
         s: 'id asc'
