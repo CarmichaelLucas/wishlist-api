@@ -44,4 +44,9 @@ class ApplicationController < ActionController::API
   def forbidden
     render json: { message: 'Permissão negada para está ação !' }, status: :forbidden
   end
+
+  def resource_not_found
+    render json: { message: 'Recurso não encontrado' }, status: :unprocessable_entity
+  end
+
 end
