@@ -10,7 +10,7 @@ class ClientsController < ApplicationController
     q = result.ransack(filters)
     @clients = q.result
     
-    render json: @clients
+    render json: @clients, meta: pagination_dict(@clients)
   end
 
   # GET /clients/1
@@ -83,6 +83,16 @@ class ClientsController < ApplicationController
         name_cont: params[:name],
         email_eq: params[:email],
         s: 'id asc'
+      }
+    end
+
+    def pagination_dict(collection)
+      {
+        current_page: collection.current_page,
+        next_page: collection.next_page,
+        prev_page: collection.prev_page,
+        total_pages: collection.total_pages,
+        total_count: collection.total_count
       }
     end
 end

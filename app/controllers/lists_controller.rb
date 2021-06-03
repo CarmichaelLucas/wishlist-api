@@ -20,7 +20,7 @@ class ListsController < ApplicationController
     @list = List.new(client_id: @client.id, product_ids: params[:product_ids])
 
     if @list.save
-      render json: @list, include: [:products], status: :created
+      render json: @list, status: :created
     else
       render json: @list.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class ListsController < ApplicationController
     return resource_not_found if @list.nil?
 
     if @list.update(product_ids: params[:product_ids])
-      render json: @list, include: [:products]
+      render json: @list
     else
       render json: @list.errors, status: :unprocessable_entity
     end

@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Client, type: :model do
-
-  it 'with success' do
-    client = create(:client)
-
-    expect(client).to be_valid
-  end
+  let(:client) { create(:client) }
+  
+  it { expect(client).to be_valid }
 
   context 'Validate' do
     it { is_expected.to validate_presence_of(:name) }
