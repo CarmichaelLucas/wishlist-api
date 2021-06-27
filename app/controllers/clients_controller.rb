@@ -58,7 +58,7 @@ class ClientsController < ApplicationController
       token = encode_token({ client_id: @client.id, email: @client.email})
       render json: { client: @client, token: token }
     else
-      render json: { error: "E-mail Invalido!" }, status: :unauthorized
+      render json: { message: "Informação invalida, tente novamente" }, status: :unauthorized
     end
   end
 

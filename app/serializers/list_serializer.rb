@@ -5,6 +5,12 @@ class ListSerializer < ActiveModel::Serializer
   has_many :products
 
   def client
-    ActiveModel::ClientSerializer.new(object.client)
+    client = object.client
+    
+    { 
+      id: client.id,
+      name: client.name,
+      email: client.email
+    }
   end
 end

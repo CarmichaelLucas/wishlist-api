@@ -49,4 +49,11 @@ class ApplicationController < ActionController::API
     render json: { message: 'Recurso não encontrado' }, status: :unprocessable_entity
   end
 
+  def product_not_exists
+    render json: { message: 'Produtos passados não existem ou invalidos' }, status: :unprocessable_entity
+  end
+
+#  def list_exists
+#    render json: { message: 'Cliente já possui uma Lista Criada' }, status: :unprocessable_entity
+#  end
 end
