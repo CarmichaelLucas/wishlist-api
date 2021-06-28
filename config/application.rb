@@ -32,7 +32,7 @@ module Myapp
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.factory_bot.definition_file_paths = ["spec/factories"]
+#    config.factory_bot.definition_file_paths = ["spec/factories"]
 
     config.generators do |g|
       g.test_framework :rspec,
