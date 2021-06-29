@@ -39,3 +39,8 @@ Caso deseja baixar o projeto e rodar local a aplicação, seguir o _passo-a-pass
 
 * Para dar um down na API:
 > docker-compose down
+
+### Ambiente
+
+Por padrão a API esta disponibilizada na `PORT=3000`, ou seja, quando realizar o _build_ usar:
+> baseUrl: http://localhost:3000/
