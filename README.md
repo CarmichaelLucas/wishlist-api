@@ -1,34 +1,37 @@
-# Lista de Favoritos
+## Lista de Favoritos
 
-Este projeto envolve um método de aprendizado, consiste no aperfeiçoamento das minhas skills em programação com Ruby e consequentemente o uso do Rails. Meu mentor @OtavioHenrique dedicou de seu tempo e paciência para me instruir ao término desse projeto.
+Este projeto consiste no aperfeiçoamento de minhas skills em programação com **_Ruby_** e consequentemente o uso do **_Ruby on Rails_**. Meu mentor @OtavioHenrique dedicou de seu tempo e paciência para me instruir nesse projeto.  
 
-Essa aplicação está disponibilizada no Heroku. Para uso seguir a Documentação abaixo:
-> Postman: https://documenter.getpostman.com/view/11287623/Tzef9i2y
+
+Essa aplicação está disponibilizada no Heroku \o/. E para seu uso, basta seguir a Documentação abaixo:
+> Postman: https://documenter.getpostman.com/view/11287623/Tzef9i2y  
+
+
+A **API** desenvolvida, foi implementada usando _framework_ **_Ruby on Rails_** (5.2). Todos os recurso possuem teste unitário e de integração, com uso do RSpec.  
 
 ___
-
-A API desenvolvida, foi implementada usando framework Ruby on Rails 5.2, todos os recurso foram realizados teste unitário e de integração, com uso do RSpec. A API contem autenticação em seu acesso e controle sobre os dados que são utilizados em alguns recursos. 
-
 ### Configurações
 
-Caso deseja baixar o projeto e rodar local a aplicação, seguir o passo-a-passo deixado abaixo:
 
-**Requisitos p/ Uso**
-* git
-* docker
+Caso deseja baixar o projeto e rodar local a aplicação, seguir o _passo-a-passo_ abaixo:
+
+* **Requisitos p/ Uso**
+  * git
+  * docker
 
 ##### Download 
-* Clone o repositorio:
-> git clone
 
-##### Subindo a API
+* Você precisa dar um Clone no projeto:
+> git clone https://github.com/CarmichaelLucas/favorite_list.git
+
+##### Build da API
 * Na raiz `/` do projeto, digite:
 > docker-compose up -d
 
-* Para ver os logs:
+* Para ver os logs, caso precise:
 > docker logs -f favorite_list_api
 
-* Para acessar o Container API:
+* Para acessar o container API:
 > docker exec -it favorite_list_api bash
 
 * Para rodar os Teste:
