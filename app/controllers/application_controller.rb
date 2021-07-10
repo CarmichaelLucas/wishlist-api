@@ -38,11 +38,11 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-    render json: { message: 'Realize o Login!' }, status: :unauthorized unless logged_in?
+    render json: { message: 'Realize o login!' }, status: :unauthorized unless logged_in?
   end
 
   def forbidden
-    render json: { message: 'Permissão negada para está ação !' }, status: :forbidden
+    render json: { message: 'Permissão negada para está ação!' }, status: :forbidden 
   end
 
   def resource_not_found
@@ -53,7 +53,4 @@ class ApplicationController < ActionController::API
     render json: { message: 'Produtos passados não existem ou invalidos' }, status: :unprocessable_entity
   end
 
-#  def list_exists
-#    render json: { message: 'Cliente já possui uma Lista Criada' }, status: :unprocessable_entity
-#  end
 end

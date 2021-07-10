@@ -1,22 +1,20 @@
+require_relative '../services/client/lister.rb/'
+
 class ClientsController < ApplicationController
 
   before_action :authorized, except: [:sign_in, :create, :index]
-
   before_action :set_client, only: [:show, :update, :destroy]
-
+  before_action :access_resource, only: [:show, :update, :destroy]
+    
   # GET /clients
   def index
-    result = Client.all.page(params[:page]).per(params[:per_page])
-    q = result.ransack(filters)
-    @clients = q.result
-    
+    lister = Lister.new(name: params[:name], email: params[:email], page: params[:page], per_page: params[:per_page])
+    @clients = lister.filter
     render json: @clients, meta: pagination_dict(@clients)
   end
 
   # GET /clients/1
   def show
-    return forbidden if current_client_id != @client.id
-    
     render json: @client
   end
 
@@ -34,8 +32,6 @@ class ClientsController < ApplicationController
 
   # PATCH/PUT /clients/1
   def update
-    return forbidden if current_client_id != @client.id
-
     if @client.update(client_params)
       render json: @client
     else
@@ -45,8 +41,6 @@ class ClientsController < ApplicationController
 
   # DELETE /clients/1
   def destroy
-    return forbidden if current_client_id != @client.id
-
     @client.destroy
   end
 
@@ -70,20 +64,12 @@ class ClientsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_client
-      @client = Client.find(params[:id])
+      @client = client
     end
 
     # Only allow a trusted parameter "white list" through.
     def client_params
       params.require(:client).permit(:name, :email)
-    end
-
-    def filters
-      {
-        name_cont: params[:name],
-        email_eq: params[:email],
-        s: 'id asc'
-      }
     end
 
     def pagination_dict(collection)
@@ -94,5 +80,15 @@ class ClientsController < ApplicationController
         total_pages: collection.total_pages,
         total_count: collection.total_count
       }
+    end
+
+    def access_resource
+      return forbidden if current_client_id != client.id
+    end
+
+    def client
+      return resource_not_found if Client.find_by(id: params[:id]).nil?
+
+      Client.find_by(id: params[:id])
     end
 end
