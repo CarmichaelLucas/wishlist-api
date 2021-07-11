@@ -276,7 +276,7 @@ RSpec.describe "/clients", type: :request do
         get '/auth_token', headers: { Authorization: "hash_invalid" }, as: :json
 
         expect(response).to have_http_status(:unauthorized)
-        expect(json['message']).to eq("Realize o Login!")
+        expect(json['message']).to eq("Realize o login!")
       end
       
     end

@@ -8,8 +8,8 @@ class ClientsController < ApplicationController
     
   # GET /clients
   def index
-    lister = Lister.new(name: params[:name], email: params[:email], page: params[:page], per_page: params[:per_page])
-    @clients = lister.filter
+    lister = Lister.new(params)
+    @clients = lister.filter('Client')
     render json: @clients, meta: pagination_dict(@clients)
   end
 
@@ -62,25 +62,14 @@ class ClientsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_client
       @client = client
     end
 
-    # Only allow a trusted parameter "white list" through.
     def client_params
       params.require(:client).permit(:name, :email)
     end
 
-    def pagination_dict(collection)
-      {
-        current_page: collection.current_page,
-        next_page: collection.next_page,
-        prev_page: collection.prev_page,
-        total_pages: collection.total_pages,
-        total_count: collection.total_count
-      }
-    end
 
     def access_resource
       return forbidden if current_client_id != client.id

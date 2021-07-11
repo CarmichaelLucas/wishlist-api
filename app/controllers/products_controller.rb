@@ -1,3 +1,5 @@
+require_relative '../services/product/lister.rb'
+
 class ProductsController < ApplicationController
   before_action :authorized, except: [:index]
 
@@ -5,11 +7,9 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    result = Product.all.page(params[:page]).per(params[:per_page])
-    q = result.ransack(filters)
-    @products = q.result
-
-    render json: @products
+    lister = Lister.new(params)
+    @products = lister.filter('Product')
+    render json: @products, meta: pagination_dict(@products)
   end
 
   # GET /products/1
@@ -51,15 +51,5 @@ class ProductsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def product_params
       params.require(:product).permit(:price, :image, :brand, :title, :review_score)
-    end
-
-    def filters
-      {
-        price_gteq: params[:price_initial],
-        price_lteq: params[:price_final],
-        brand_cont: params[:brand],
-        title_cont: params[:title],
-        s: 'id asc'
-      }
     end
 end

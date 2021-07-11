@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-class Lister
+require_relative '../application/lister_application.rb'
+
+class Lister < ListerApplication
+
   def initialize(params)
+    super({page: params[:page], per_page: params[:per_page]})
     @name = params[:name] || nil
     @email = params[:email] || nil
-    @page = params[:page] || nil
-    @per_page = params[:per_page] || nil
   end
-
-  def filter()
-    result = Client.all.page(@page).per(@per_page)
-    q = result.ransack(query)
-    q.result
-  end
-
+  
   def query()
     {
       name_cont: @name,

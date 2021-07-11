@@ -182,14 +182,14 @@ RSpec.describe 'List', type: :request do
         put "/clients/#{new_client.id}/lists/#{list.id}", params: body, headers: valid_headers, as: :json
 
         expect(response).to have_http_status(:forbidden)
-        expect(json['message']).to eq("Permissão negada para está ação !")
+        expect(json['message']).to eq("Permissão negada para está ação!")
       end
 
       it 'renders a response unauthorized' do
         put "/clients/#{client.id}/lists/#{list.id}", params: body, as: :json
 
         expect(response).to have_http_status(:unauthorized)
-        expect(json['message']).to eq("Realize o Login!")
+        expect(json['message']).to eq("Realize o login!")
       end
 
       it 'try to update a list without products' do
