@@ -1,5 +1,3 @@
-require_relative '../services/client/lister.rb/'
-
 class ClientsController < ApplicationController
 
   before_action :authorized, except: [:sign_in, :create, :index]
@@ -8,8 +6,8 @@ class ClientsController < ApplicationController
     
   # GET /clients
   def index
-    lister = Lister.new(params)
-    @clients = lister.filter('Client')
+    lister = ClientManager::Lister.new(params)
+    @clients = lister.build
     render json: @clients, meta: pagination_dict(@clients)
   end
 

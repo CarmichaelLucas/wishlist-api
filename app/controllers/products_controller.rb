@@ -1,5 +1,3 @@
-require_relative '../services/product/lister.rb'
-
 class ProductsController < ApplicationController
   before_action :authorized, except: [:index]
 
@@ -7,8 +5,8 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    lister = Lister.new(params)
-    @products = lister.filter('Product')
+    lister = ProductManager::Lister.new(params)
+    @products = lister.build
     render json: @products, meta: pagination_dict(@products)
   end
 
