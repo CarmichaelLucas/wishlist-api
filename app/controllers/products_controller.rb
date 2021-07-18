@@ -1,6 +1,4 @@
 class ProductsController < ApplicationController
-  before_action :authorized, except: [:index]
-
   before_action :set_product, only: [:show, :update, :destroy]
 
   # GET /products
@@ -17,13 +15,19 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    @product = Product.new(product_params)
+    @product = ProductManager::Creator.new(product_params)
+    @product.execute_creating!
 
-    if @product.save
-      render json: @product, status: :created, location: @product
-    else
-      render json: @product.errors, status: :unprocessable_entity
-    end
+    render json: @product, status: :created
+  end
+
+  # POST /many/products
+  def many
+    params.permit!
+    @products = ProductManager::Creator.new(params[:product_attributes])
+    @products.execute_creating!
+      
+    render json: @products, status: :created 
   end
 
   # PATCH/PUT /products/1
