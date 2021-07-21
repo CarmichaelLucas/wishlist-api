@@ -2,6 +2,7 @@
 
 module ProductManager
   class Creator
+
     def initialize(products)
       @products = products
     end
@@ -9,5 +10,6 @@ module ProductManager
     def execute_creating!
       Product.create!(@products)
     end
+
   end
 end

@@ -13,7 +13,7 @@ module ApplicationManager
       q.result
     end
 
-    def build; raise 'Method abstract, implement at your class!'; end
-    def query; raise 'Method abstract, implement at your class!'; end
+    def build; raise NotImplementedError, 'Method abstract, implement at your class!'; end
+    def query; raise NotImplementedError, 'Method abstract, implement at your class!'; end
   end
 end
