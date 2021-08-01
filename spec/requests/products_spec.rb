@@ -21,80 +21,88 @@ RSpec.describe "/products", type: :request do
 
   describe "POST /create" do
     context "with valid parameters" do
-      let(:product) { build(:product) }
+      let(:product) { attributes_for(:product) }
 
       it "creates a new Product" do
         expect {
-          post '/products', params: { product: product }, as: :json
+          post '/products', params: { product_attributes: product }, as: :json
         }.to change(Product, :count).by(1)
       end
 
       it "renders a JSON response with the new product" do
-        post '/products', params: { product: product }, as: :json
+        post '/products', params: { product_attributes: product }, as: :json
         
         expect(response).to have_http_status(:created)
       end
     end
 
+    context 'with a list the products' do
+      let(:product) { attributes_for_list(:product, 5) }
+
+      it 'create collections' do
+        expect{  post '/products', params: { product_attributes: product }, as: :json }.to change(Product, :count).by(5)
+      end
+    end
+
     context "with invalid parameters the of title" do
-      let(:product) { build(:product, title: nil) }
+      let(:product) { attributes_for(:product, title: nil) }
 
       it "does not create a new Product" do
         expect {
           post '/products',
-               params: { product: product }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Title não pode ficar em branco')
+               params: { product_attributes: product }, as: :json
+        }.to raise_error(ActiveRecord::RecordInvalid, /Title não pode ficar em branco/)
       end
     end
 
     context "with invalid parameters the of price" do
-      let(:product) { build(:product, price: nil) }
+      let(:product) { attributes_for(:product, price: nil) }
 
       it "does not create a new Product" do
         expect {
-          post '/products',
-               params: { product: product }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Price não pode ficar em branco')
+          post '/products', params: { product_attributes: product }, as: :json
+        }.to raise_error(ActiveRecord::RecordInvalid, /Price não pode ficar em branco/)
       end
     end
     
     context "with invalid parameters the of brand" do
-      let(:product) { build(:product, brand: nil) }
+      let(:product) { attributes_for(:product, brand: nil) }
 
       it "does not create a new Product" do
         expect {
           post '/products',
-               params: { product: product }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Brand não pode ficar em branco')
+               params: { product: { product_attributes: product } }, as: :json
+        }.to raise_error(ActiveRecord::RecordInvalid, /Brand não pode ficar em branco/)
       end
     end
   end
 
-  describe "PATCH /update" do
-    let(:new_product) { build(:product) }
+  describe "PUT|PATCH /update" do
+    let(:new_product) { attributes_for(:product, image: 'https://exemplo.io/image.png') }
 
     context "with valid parameters" do
       it "updates the requested product" do
-        patch "/products/#{product.id}", params: { product: new_product }, as: :json
+        put "/products/#{product.id}", params: new_product, as: :json
 
-        product.reload
-        expect(new_product.price).to eq(product.price)
-        expect(new_product.brand).to eq(product.brand)
-        expect(new_product.title).to eq(product.title)
+        expect(json["product"]["id"]).to eq(product.id)
+        expect(json["product"]["price"].to_f).to eq(new_product[:price].to_f)
+        expect(json["product"]["image"]).to eq(new_product[:image])
+        expect(json["product"]["brand"]).to eq(new_product[:brand])
+        expect(json["product"]["title"]).to eq(new_product[:title])
       end
 
       it "renders a JSON response with the product" do
-        patch "/products/#{product.id}", params: { product: new_product }, as: :json
+        put "/products/#{product.id}", params: new_product, as: :json
         
         expect(response).to have_http_status(:success)
       end
     end
 
     context "with invalid parameters" do
-      let(:new_product) { build(:product, price: nil, brand: nil) }
+      let(:new_product) { attributes_for(:product, price: nil, brand: nil) }
 
       it "renders a JSON response with errors for the product" do
-        patch "/products/#{product.id}", params: { product: new_product }, as: :json
+        put "/products/#{product.id}", params: new_product, as: :json
         
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -107,45 +115,6 @@ RSpec.describe "/products", type: :request do
       expect {
         delete "/products/#{product.id}", as: :json
       }.to change(Product, :count).by(-1)
-    end
-  end
-
-  describe "POST /many" do 
-    let(:products) { build_list(:product, 5) }
-
-    it 'create collections the of products' do
-      expect{  post '/many/products', params: { product_attributes: [ products ] }, as: :json }.to change(Product, :count).by(5)
-    end
-
-    context "with invalid parameters the of title" do
-      let(:products) { build_list(:product, 2, title: nil) }
-
-      it "does not create a new products" do
-        expect {
-          post '/many/products', params: { product_attributes: [ products ] }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Title não pode ficar em branco')
-      end
-    end
-
-    context "with invalid parameters the of price" do
-      let(:products) { build_list(:product, 2, price: nil) }
-
-      it "does not create a new Product" do
-        expect {
-          post '/many/products', params: { product_attributes: [ products ] }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Price não pode ficar em branco')
-      end
-    end
-    
-    context "with invalid parameters the of brand" do
-      let(:products) { build_list(:product, 2, brand: nil) }
-
-      it "does not create a new Product" do
-        expect {
-          post '/many/products',
-               params: { product_attributes: [ products ] }, as: :json
-        }.to raise_error(ActiveRecord::RecordInvalid, 'A validação falhou: Brand não pode ficar em branco')
-      end
     end
   end
 end

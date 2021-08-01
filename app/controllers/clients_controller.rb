@@ -6,8 +6,9 @@ class ClientsController < ApplicationController
     
   # GET /clients
   def index
-    lister = ClientManager::Lister.new(params)
-    @clients = lister.build
+    lister = Client.all.page(params[:page]).per(params[:per_page])
+    @clients = lister.ransack(filters).result
+    
     render json: @clients, meta: pagination_dict(@clients)
   end
 
@@ -77,5 +78,13 @@ class ClientsController < ApplicationController
       return resource_not_found if Client.find_by(id: params[:id]).nil?
 
       Client.find_by(id: params[:id])
+    end
+
+    def filters
+      {
+        name_cont: params[:name],
+        email_eq: params[:email],
+        s: 'id desc' 
+      }
     end
 end

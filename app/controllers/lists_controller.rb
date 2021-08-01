@@ -18,8 +18,6 @@ class ListsController < ApplicationController
   def create
     return forbidden if current_client_id != @client.id
 
-    #return list_exists if List.find_by(client_id: @client.id)
-
     @list = List.new(client_id: @client.id, product_ids: @product_ids)
 
     if @list.save
@@ -38,10 +36,6 @@ class ListsController < ApplicationController
     return resource_not_found if @list.nil?
 
     render json: @list if @list.update(product_ids: @product_ids)
-      
-#    else
-#      render json: @list.errors, status: :unprocessable_entity
-#    end
   end
 
   # DELETE client/1/lists/1

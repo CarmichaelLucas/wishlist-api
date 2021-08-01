@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
  
   resources :products
-  post "/many/products", to: "products#many"
 
   resources :clients do 
     resources :lists,  only: [:index, :create, :update, :destroy]

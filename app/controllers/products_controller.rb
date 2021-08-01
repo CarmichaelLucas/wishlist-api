@@ -3,8 +3,9 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    lister = ProductManager::Lister.new(params)
-    @products = lister.build
+    lister = Product.all.page(params[:page]).per(params[:per])
+    @products = lister.ransack(filters).result
+
     render json: @products, meta: pagination_dict(@products)
   end
 
@@ -15,19 +16,11 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    @product = ProductManager::Creator.new(product_params)
+    params.permit!
+    @product = ProductManager::Creator.new(params[:product_attributes])
     @product.execute_creating!
 
     render json: @product, status: :created
-  end
-
-  # POST /many/products
-  def many
-    params.permit!
-    @products = ProductManager::Creator.new(params[:product_attributes])
-    @products.execute_creating!
-      
-    render json: @products, status: :created 
   end
 
   # PATCH/PUT /products/1
@@ -52,6 +45,16 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:price, :image, :brand, :title, :review_score)
+      params.require(:product).permit(:title, :brand, :image, :price, :review_score)
+    end
+
+    def filters
+      {
+        price_gteq: params[:price_initial],
+        price_lteq: params[:price_final],
+        brand_cont: params[:brand],
+        title_cont: params[:title],
+        s: 'id desc'
+      }
     end
 end

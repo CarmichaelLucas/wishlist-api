@@ -10,6 +10,6 @@ module ProductManager
     def execute_creating!
       Product.create!(@products)
     end
-
+    
   end
 end
