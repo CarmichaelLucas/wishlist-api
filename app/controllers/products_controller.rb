@@ -17,9 +17,10 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     params.permit!
-    worker = ProductJob.perform_later(params[:product_attributes])
+    @products = ProductManager::Creator.new(params[:product_attributes])
+    @products.execute_jobs
 
-    render json: { job_id: worker.job_id }, status: :created
+    render json: @products, status: :created
   end
 
   # PATCH/PUT /products/1
