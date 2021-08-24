@@ -9,6 +9,7 @@ build: clean
 # make remove
 remove: down
 	@docker image rmi lucas/api
+	@docker image rmi lucas/sidekiq
 
 # make bash
 bash:
@@ -30,3 +31,7 @@ logs:
 # make permit
 permit:
 	@sudo chown -R ${USER}:${USER} .
+
+# make test
+test:
+	@docker-compose exec api bundle exec rspec

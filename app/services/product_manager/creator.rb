@@ -1,14 +1,14 @@
-
-
 module ProductManager
   class Creator
 
-    def initialize(products)
-      @products = products
+    def execute_creating!(product)
+      Product.create!(product)
     end
   
-    def execute_creating!
-      Product.create!(@products)
+    def execute_jobs(products)
+      products.each do |product|
+        ProductWorker.perform_in(1.second, product.to_h)
+      end
     end
     
   end
