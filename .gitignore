@@ -8,14 +8,17 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+/log/
+/tmp/
+/vendor/
+/public/
+/lib/
+# !/log/.keep
+# !/tmp/.keep
 
 # Ignore uploaded files in development
-/storage/*
-!/storage/.keep
+/storage/
+# !/storage/.keep
 
 .byebug_history
 
