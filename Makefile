@@ -25,8 +25,12 @@ clean:
 	@mkdir -p tmp/pids && touch tmp/pids/.keep
 
 # make logs
-logs:
+api:
 	@docker-compose logs -f api
+
+# make sidekiq
+sidekiq:
+	@docker-compose logs -f sidekiq
 
 # make permit
 permit:

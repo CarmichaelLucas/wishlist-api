@@ -15,7 +15,7 @@ ___
 
 Caso deseja baixar o projeto e rodar local a aplicação, seguir o _passo-a-passo_ abaixo:
 
-* **Requisitos p/ Uso**
+**Requisitos p/ Uso**  
   * git
   * docker
 
@@ -26,19 +26,19 @@ Caso deseja baixar o projeto e rodar local a aplicação, seguir o _passo-a-pass
 
 ##### Build da API
 * Na raiz `/` do projeto, digite:
-> docker-compose up -d
+> make build
 
 * Para ver os logs, caso precise:
-> docker logs -f favorite_list_api
+> make api ou make sidekiq
 
 * Para acessar o container API:
-> docker exec -it favorite_list_api bash
+> make bash
 
 * Para rodar os Teste:
-> docker-compose run api bundle exec rspec --order rand 
+> make test
 
 * Para dar um down na API:
-> docker-compose down
+> make remove
 
 ### Ambiente
 
