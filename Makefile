@@ -25,7 +25,7 @@ clean:
 	@mkdir -p tmp/pids && touch tmp/pids/.keep
 
 # make logs
-api:
+logs:
 	@docker-compose logs -f api
 
 # make sidekiq

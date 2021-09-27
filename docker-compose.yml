@@ -11,7 +11,7 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
     ports: 
       - "5432:5432"
-
+    
   redis:
     image: redis:latest
     container_name: redis
@@ -19,7 +19,7 @@ services:
     volumes: 
       - ./tmp/db:/var/lib/redis/data
     ports:
-      - 6379:6379
+      - "6379:6379"
 
   api:
     build: 
@@ -53,3 +53,10 @@ services:
     depends_on: 
       - db
       - redis
+
+  sinatra:
+    image: 93carmichael/sinatra:latest
+    container_name: sinatra
+    command: bash -c "ruby app.rb -o '0.0.0.0'"
+    ports:
+      - "4567:4567"
