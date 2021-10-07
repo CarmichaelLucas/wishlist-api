@@ -1,4 +1,6 @@
 require 'rspec-sidekiq'
+require 'webmock/rspec'
+
 
 RSpec.configure do |config|
 
