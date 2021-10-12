@@ -8,9 +8,9 @@ RSpec.describe Client, type: :model do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
   
-  it 'sends welcome email after creation' do
+  it 'sends a welcome email after creation' do
     c = Client.new
-    expect(c).to receive(:send_email)
+    expect(c).to receive(:send_welcome_email)
 
     c.name = 'Teste' 
     c.email = 'teste@teste.com'
