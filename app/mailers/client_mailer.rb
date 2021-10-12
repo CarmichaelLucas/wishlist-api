@@ -9,6 +9,6 @@ class ClientMailer < ApplicationMailer
 
   private
   def load_client
-    @client = params[:client]
+    @client = Client.find(params[:id_client])
   end
 end

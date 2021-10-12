@@ -8,6 +8,6 @@ class Client < ApplicationRecord
 
   private
   def send_email
-    ClientMailer.with(client: self).wellcome.deliver_now!
+    SendEmailWorker.perform_in(1.minute, self.id)
   end
 end

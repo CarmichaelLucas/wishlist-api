@@ -7,7 +7,7 @@ module ProductManager
   
     def execute_jobs(products)
       products.each do |product|
-        ProductWorker.perform_in(1.second, product.to_h)
+        ProductWorker.perform_in(1.minute, product.to_h)
       end
     end
     
