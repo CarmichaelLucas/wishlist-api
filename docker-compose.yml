@@ -57,13 +57,6 @@ services:
       - redis
       - mailcatcher
 
-  sinatra:
-    image: 93carmichael/sinatra:latest
-    container_name: sinatra
-    command: bash -c "ruby app.rb -o '0.0.0.0'"
-    ports:
-      - "4567:4567"
-
   mailcatcher:
     image: schickling/mailcatcher
     container_name: mailcatcher
