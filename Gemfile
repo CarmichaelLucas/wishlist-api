@@ -45,6 +45,9 @@ gem 'ransack'
 # pagination
 gem 'kaminari'
 
+# Official AWS Ruby gem for Amazon Simple Queue Service (Amazon SQS). This gem is part of the AWS SDK for Ruby.
+gem 'aws-sdk-sqs', '~> 1.46'
+
 # sidekiq
 gem 'sidekiq'
 
