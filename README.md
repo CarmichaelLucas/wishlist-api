@@ -1,46 +1,68 @@
-## Lista de Favoritos
+# API WishList
 
-Este projeto consiste no aperfeiçoamento de minhas skills em programação com **_Ruby_** e consequentemente o uso do **_Ruby on Rails_**. Meu mentor @OtavioHenrique dedicou de seu tempo e paciência para me instruir nesse projeto.  
+Este projeto consiste em uma API, onde seu proprosito está em organizar uma lista de produtos favoritos de um determinado cliente. Quando desenvolvido este projeto que está em constante evolução foi para o aperfeiçoamento de minhas skills em programação com **_Ruby_** e consequentemente o uso do **_Ruby on Rails_**. Este projeto segue os exercicios propostos pelo meu mentor @OtavioHenrique.  
 
-
-Essa aplicação está disponibilizada no Heroku \o/. E para seu uso, basta seguir a Documentação abaixo:
+Essa aplicação está disponibilizada no Heroku, porém não está a versão mais atual do projeto. Para seu uso, basta seguir a documentação abaixo que disponibilizei pela ferramente do Postman :point_down:
 > Postman: https://documenter.getpostman.com/view/11287623/Tzef9i2y  
 
+A **API** desenvolvida, foi implementada usando _framework_ **_Ruby on Rails_** (5.2). Todos os recurso possuem testes unitários e testes de integração, com uso do RSpec e alguns facilitadores
 
-A **API** desenvolvida, foi implementada usando _framework_ **_Ruby on Rails_** (5.2). Todos os recurso possuem teste unitário e de integração, com uso do RSpec.  
+## Ferramentas necessarias
 
-___
-### Configurações
+* Git
+* Docker
+* AWS SQS
 
+## Configuração inicial para uso
 
-Caso deseja baixar o projeto e rodar local a aplicação, seguir o _passo-a-passo_ abaixo:
+Baixe o projeto e siga as observações abaixo para utilizar a API sem nenhum problema, essas recomendações são para que não tenha problemas ao rodar os serviços que a API oferece.
 
-**Requisitos p/ Uso**  
-  * git
-  * docker
+É importante possuir uma conta na AWS, pois não irei dispor de minhas credencias. Então basta acessar o serviço SQS (Simple Queue Service) e criar uma fila, essa fila precisa ser do tipo FIFO.  
+Dito isso, crie um arquivo chamado `.env` e insira as seguintes variaveis de ambiente :point_down:
 
-##### Download 
+```shell
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+AWS_REGION=us-east-1
+AWS_SQS_QUEUE_URL=your_queue_url
+REDIS_URL=redis://redis:6379/12
+```
 
-* Você precisa dar um Clone no projeto:
-> git clone https://github.com/CarmichaelLucas/favorite_list.git
+A variavel **REDIS_URL** pode deixar o valor que disponibilizei acima, pois irá precisar para se comunicar com o _Redis_.
 
-##### Build da API
-* Na raiz `/` do projeto, digite:
+## Build com Make (caso use S.O Linux)
+
+Na raiz `/` do projeto, digite:
 > make build
 
-* Para ver os logs, caso precise:
-> make api ou make sidekiq
+Para ver os logs, caso precise:
+> make logs
 
-* Para acessar o container API:
-> make bash
-
-* Para rodar os Teste:
+Para rodar os Teste:
 > make test
 
-* Para dar um down na API:
+Para dar um down na API:
 > make remove
 
-### Ambiente
+## Build com docker-compose
 
-Por padrão a API esta disponibilizada na `PORT=3000`, ou seja, quando realizar o _build_ usar:
+Na raiz `/` do projeto, digite:
+> docker-compose build
+> docker-compose up -d
+> docker-compose run api rails db:drop db:create db:migrate
+
+Para ver os logs, caso precise:
+> docker-compose logs -f api
+
+Para rodar os Teste:
+> docker-compose exec api bundle exec rspec
+
+Para dar um down na API:
+> docker-compose down
+> docker image rmi lucas/api
+> docker image rmi lucas/sidekiq
+
+## Ambiente
+
+Por padrão a API esta disposta na porta `3000`, ou seja, quando realizar o _build_ acesse em seu navegador ou use os recursos pela seguinte `baseUrl` :point_down:
 > baseUrl: http://localhost:3000/
