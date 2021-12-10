@@ -5,8 +5,9 @@ services:
     image: postgres
     container_name: db
     restart: always
-    environment: 
-      POSTGRES_PASSWORD: passwdRails
+    environment:
+      POSTGRES_USER: wishlist 
+      POSTGRES_PASSWORD: wishlist
     volumes: 
       - ./tmp/db:/var/lib/postgresql/data
     ports: 
@@ -31,7 +32,7 @@ services:
     env_file:
       - .env
     volumes: 
-      - ./:/myapp
+      - ./:/var/www/api
     ports: 
       - "3000:3000"
     depends_on: 
@@ -46,8 +47,10 @@ services:
     image: lucas/sidekiq
     command: bundle exec sidekiq
     volumes: 
-      - ./:/myapp
-      - /myapp/tmp/
+      - ./:/var/www/api
+      - /var/www/api/tmp/
+    environment:
+      - REDIS_URL=redis://redis:6379/1
     depends_on: 
       - db
       - redis
