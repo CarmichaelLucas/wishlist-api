@@ -9,6 +9,7 @@ build: clean
 # make remove
 remove: down
 	@docker container prune
+	@docker volume prune
 	@docker image rmi lucas/api
 	@docker image rmi lucas/sidekiq
 

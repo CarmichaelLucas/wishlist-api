@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe AWSManager::SQS do
   
   let!(:sqs_client) { Aws::SQS::Client.new(stub_responses: true) }
@@ -19,7 +21,7 @@ RSpec.describe AWSManager::SQS do
     expect(Aws::SQS::Client).to receive(:new) { sqs_client }
     expect(sqs_client).to receive(:send_message).and_raise(StandardError)
     
-    expect{subject.send_message(data: data)}.to raise_error(/Error sending message: StandardError/)
+    expect{ subject.send_message(data: data) }.to raise_error(StandardError)
   
   end
 
