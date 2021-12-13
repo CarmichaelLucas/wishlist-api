@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AWSManager::AWS do
-  let(:aws) { (Class.new { include AWSManager::AWS }).new }
+  let(:aws) { described_class.new }
   
   it { expect(aws.credentials).to be_kind_of(Hash) }
   it { expect(aws.credentials).to include(
