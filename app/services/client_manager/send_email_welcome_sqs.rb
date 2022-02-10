@@ -42,8 +42,9 @@ module ClientManager
         arguments: [
           {
             suject: "Welcome #{client.name}",
-            to: "#{client.email}",
-            message: 'Seja Bem vindo!' 
+            email: "#{client.email}",
+            name: "#{client.name}",
+            type: 'send_email_welcome_to_client' 
           }
         ],                       
         executions: 0,                                      
