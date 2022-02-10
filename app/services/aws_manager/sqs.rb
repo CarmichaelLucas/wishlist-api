@@ -8,7 +8,13 @@ module AWSManager
         queue_url: aws_queue_url,
         message_body: message,
         message_group_id: data[:message_group_id],
-        message_deduplication_id: data[:message_deduplication_id]
+        message_deduplication_id: data[:message_deduplication_id],
+        message_attributes: {
+          'shoryuken_class' => {
+            string_value: 'ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper',
+            data_type: 'String'
+          }
+        }
       )
       true
     rescue StandardError => e

@@ -22,7 +22,7 @@ class ClientsController < ApplicationController
     @client = Client.new(client_params)
 
     if @client.save
-      ClientWorker.perform_in(1.minute, @client.id)
+      ClientWorker.perform_in(10.second, @client.id)
       token = encode_token({ client_id: @client.id, email: @client.email })
       render json: { client: @client, token: token }, status: :created, location: @client
     else
