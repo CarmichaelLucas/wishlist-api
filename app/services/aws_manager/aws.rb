@@ -14,10 +14,10 @@ module AWSManager
 
     private
     def initialize
-      @access_key_id = Rails.application.credentials.aws[:access_key_id]
-      @secret_access_key = Rails.application.credentials.aws[:secret_access_key]
-      @region = Rails.application.credentials.aws[:region]
-      @queue_url = Rails.application.credentials.aws[:sqs][:queue_url]
+      @access_key_id = ENV['AWS_ACCESS_KEY_ID']
+      @secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+      @region = ENV['AWS_REGION']
+      @queue_url = ENV['AWS_SQS_QUEUE_URL']
     end
   end
 end

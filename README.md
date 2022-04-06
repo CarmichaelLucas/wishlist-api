@@ -13,7 +13,19 @@ A **API** desenvolvida, foi implementada usando _framework_ **_Ruby on Rails_** 
 * Docker
 * AWS SQS
 
-# Configuração inicial para uso
+## Configuração inicial para uso
+
+Baixe o projeto e siga as observações abaixo para utilizar a API sem nenhum problema, essas recomendações são para que não tenha problemas ao rodar os serviços que a API oferece.
+
+É importante possuir uma conta na AWS, pois não irei dispor de minhas credencias. Então basta acessar o serviço SQS (Simple Queue Service) e criar uma fila, essa fila precisa ser do tipo FIFO.  
+Dito isso, crie um arquivo chamado `.env` e insira as seguintes variaveis de ambiente :point_down:
+
+```shell
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+AWS_REGION=us-east-1
+AWS_SQS_QUEUE_URL=your_queue_url
+```
 
 ## Build com Make (caso use S.O Linux)
 
@@ -28,6 +40,24 @@ Para rodar os Teste:
 
 Para dar um down na API:
 > make remove
+
+## Build com docker-compose
+
+Na raiz `/` do projeto, digite:
+> docker-compose build
+> docker-compose up -d
+> docker-compose run api rails db:drop db:create db:migrate
+
+Para ver os logs, caso precise:
+> docker-compose logs -f api
+
+Para rodar os Teste:
+> docker-compose exec api bundle exec rspec
+
+Para dar um down na API:
+> docker-compose down
+> docker image rmi lucas/api
+> docker image rmi lucas/sidekiq
 
 ## Ambiente
 
